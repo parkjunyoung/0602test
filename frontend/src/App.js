@@ -1,32 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import axios from 'axios';
+import { BrowserRouter as Router , Route, Switch } from 'react-router-dom';
+import Home from './routes/Home';
+import Admin from './routes/Admin';
+import Login from './routes/Login';
+import Join from './routes/Join';
+import NotMatch from './routes/NotMatch';
+import Header from './components/Header';
 
 class App extends Component {
-
-  componentDidMount(){
-    axios.get('/posts', {
-    }).then( (res) => {
-        console.log(res);
-    }).catch( (error) => {
-        console.log(error);
-    });
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <Router>
+                <div>
+                    <Header/>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/admin" component={Admin} />
+                        <Route path="/login" component={Login} />
+                        <Route path="/join" component={Join} />
+                        <Route component={NotMatch} />
+                    </Switch>
+                </div>
+            </Router>
+        );
+    }
 }
 
 export default App;
