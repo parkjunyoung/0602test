@@ -1,53 +1,33 @@
-import dotenv from 'dotenv';
-dotenv.config(); // LOAD CONFIG
-
 import express from 'express';
 import path from 'path';
+import logger from 'morgan';
+
+import posts from './routes/posts';
+import index from './routes/index';
+
+import db from './models';
 
 const app = express();
+const port = 3000;
 
-let port = 3000;
-
-import Sequelize from 'sequelize';
-
-const sequelize = new Sequelize( process.env.DATABASE , process.env.DB_USER , process.env.DB_PASSWORD , {
-  host:  process.env.DB_HOST ,
-  dialect: 'mssql',
-  dialectOptions: {
-    encrypt: true,
-  },
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
-});
-
-sequelize
-    .authenticate()
+// DB authentication
+db.sequelize.authenticate()
     .then(() => {
-<<<<<<< HEAD
         console.log('Connection has been established successfully.');
     })
     .catch(err => {
         console.error('Unable to connect to the database:', err);
-    });
-
-app.use('/', express.static(path.join(__dirname, '../../frontend/build')));
-
-app.get('/', (req, res) => {
-    res.send('index app');
 });
 
-import posts from './routes/posts';
-
-app.use('/posts', posts);
-
-app.get('*', function (req, res) {
-    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
-});
+// logger
+app.use(logger('dev'));
 
 // SERVE STATIC FILES - REACT PROJECT
+app.use('/', express.static( path.join(__dirname, '../../frontend/build') ));
+
+// routing
+app.get('/', index.render);
+app.post('/api/join', posts.join);
 
 const server = app.listen(port, () => {
     console.log('Express listening on port', port);
