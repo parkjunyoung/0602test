@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Sidebar extends Component {
     render() {
         return (
-            <div>
-                Sidebar
-            </div>
+            <div className="col-sm-2">
+                <div className="panel panel-default">
+                    <div className="panel-heading">메뉴</div>
+                    <div className="panel-body">
+                        <ul>
+                            <li><Link to="/admin/product">제품리스트</Link></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>  
         );
     }
 }
