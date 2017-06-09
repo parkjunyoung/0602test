@@ -14,6 +14,7 @@ class App extends Component {
                 <div>
                     <HeaderContainer/>
                     <Switch>
+                        <Route exact path="/" component={ Home }/>
                         <Route path="/admin" component={ Admin }/>
                         <Route path="/login" component={ LoginContainer }/>
                         <Route path="/join" component={ JoinContainer }/>
