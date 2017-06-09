@@ -1,7 +1,7 @@
 node_modules
 build
 .env
-uploads/foo/*
+uploads/*
 
 npm-debug.log*
 yarn-debug.log*
