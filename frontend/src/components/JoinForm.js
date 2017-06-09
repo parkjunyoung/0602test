@@ -1,6 +1,30 @@
 import React, { Component } from 'react';
 
-class Join extends Component {
+class JoinForm extends Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+         email: "",
+         password: "",
+         name: ""
+     };
+
+     this.handleSubmit = this.handleSubmit.bind(this);
+     this.handleChange = this.handleChange.bind(this);
+   }
+
+    handleSubmit(e){
+        e.preventDefault();
+        console.log(e);
+    }
+
+    handleChange(e){
+        let obj = {};
+        obj[e.target.name] = e.target.value;
+        this.setState(obj);
+    }
+
     render() {
         return (
             <div className="row">
@@ -10,20 +34,24 @@ class Join extends Component {
                             <h3 className="panel-title">회원가입</h3>
                         </div>
                         <div className="panel-body">
-                            <form action="" id="join_form" method="post" onSubmit={this.handleSubmit}>
+                            <form id="join_form" method="post" onSubmit={ this.handleSubmit }>
                                 <fieldset>
                                     <div className="form-group">
-                                        <input className="form-control" placeholder="ID" name="username" ref="usernameRef" required="" />
+                                        <input className="form-control" placeholder="email" name="email"
+                                         required="" onChange={ this.handleChange } value={ this.state.email }/>
                                     </div>
                                     <div className="form-group">
-                                        <input className="form-control" placeholder="Password" name="password" ref="passwordRef"  required="" />
+                                        <input className="form-control" placeholder="Password" name="password" type="password"
+                                         required="" onChange={ this.handleChange } value={ this.state.password }/>
                                     </div>
                                     <div className="form-group">
-                                        <input className="form-control" placeholder="Password 확인" name="password2" type="password" required="" />
+                                        <input className="form-control" placeholder="Password 확인" name="password_re" type="password"
+                                         required="" onChange={ this.handleChange } value={ this.state.password_re }/>
                                     </div>
 
                                     <div className="form-group">
-                                        <input className="form-control" placeholder="이름" name="displayname" type="text" ref="displaynameRef" />
+                                        <input className="form-control" placeholder="이름" name="name" type="text" 
+                                         required="" onChange={ this.handleChange } value={ this.state.name }/>
                                     </div>
                                     
                                     <input type="submit" className="btn btn-lg btn-success btn-block" value="가입하기" />
@@ -41,4 +69,4 @@ class Join extends Component {
         );
     }
 }
-export default Join;
+export default JoinForm;
