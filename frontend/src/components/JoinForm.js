@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 
 class JoinForm extends Component {
     constructor(props) {
-      super(props);
+        super(props);
 
-      this.state = {
-         email: "",
-         password: "",
-         name: ""
-     };
+        this.state = {
+            email: "",
+            password: "",
+            name: ""
+        };
 
-     this.handleSubmit = this.handleSubmit.bind(this);
-     this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
    }
 
     handleSubmit(e){
@@ -21,6 +21,7 @@ class JoinForm extends Component {
 
     handleChange(e){
         let obj = {};
+        
         obj[e.target.name] = e.target.value;
         this.setState(obj);
     }

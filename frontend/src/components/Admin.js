@@ -4,7 +4,6 @@ import ProductList from '../components/Admin/ProductList';
 import ProductWrite from '../components/Admin/ProductWrite';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-
 class Admin extends Component {
     render() {
         return (

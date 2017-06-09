@@ -1,25 +1,36 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Navbar , Nav , NavItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
- 
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {Navbar, Nav, NavItem} from 'react-bootstrap';
+import {LinkContainer} from 'react-router-bootstrap';
+
+
 class HeaderContainer extends React.Component {
     constructor(props) {
-      super(props);
+        super(props);
+    }
 
-      this.state = {
-         login: ""
-     };
-   }
+    render() {
+        const AuthButton = () => {
+            const isLoggedIn = this.props.loggedIn;
+            
+            if (isLoggedIn) {
+                return (<LinkContainer to="/logout">
+                            <NavItem>LOGOUT</NavItem>
+                        </LinkContainer>)
+            }
+            return (<LinkContainer to="/login">
+                            <NavItem>LOGIN</NavItem>
+                        </LinkContainer>)
+        }
 
-    render(){
-        return(
+        return (
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
                         <Link to="/">MyStore</Link>
                     </Navbar.Brand>
-                    <Navbar.Toggle />
+                    <Navbar.Toggle/>
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
@@ -29,14 +40,16 @@ class HeaderContainer extends React.Component {
                         <LinkContainer to="/join">
                             <NavItem>JOIN</NavItem>
                         </LinkContainer>
-                        <LinkContainer to="/login">
-                            <NavItem>LOGIN</NavItem>
-                        </LinkContainer>
+                        <AuthButton/>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-        );  
+        );
     }
 }
- 
-export default HeaderContainer;
+
+const mapStateToProps = (state) => {
+    return {loggedIn: state.login.loggedIn};
+};
+
+export default connect(mapStateToProps)(HeaderContainer);

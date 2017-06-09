@@ -1,28 +1,35 @@
 import {
-    AUTH_LOGIN,
-    AUTH_LOGIN_SUCCESS,
-    AUTH_LOGIN_FAILURE
+    LOGIN,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE
 } from './ActionTypes';
 
 export function loginRequest(email, password) {
-    
+    // todo: login request
+    return (dispatch) => {
+         dispatch(login());
+
+         return new Promise((resolve, reject) => {
+             resolve(dispatch(loginSuccess({ email: 'ho1234c@gmail.com' })))
+         })
+    }
 }
 
 export function login() {
     return {
-        type: AUTH_LOGIN
+        type: LOGIN
     };
 }
 
 export function loginSuccess(user) {
     return {
-        type: AUTH_LOGIN_SUCCESS,
+        type: LOGIN_SUCCESS,
         user
     };
 }
 
 export function loginFailure() {
     return {
-        type: AUTH_LOGIN_FAILURE
+        type: LOGIN_FAILURE
     };
 }
