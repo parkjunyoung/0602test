@@ -10,8 +10,9 @@ import NotMatch from './containers/NotMatch'
 class App extends Component {
     render() {
         return (
-            <Router>
+            <Router>    
                 <div>
+                    <HeaderContainer/>
                     <Switch>
                         <Route path="/admin" component={ Admin }/>
                         <Route path="/login" component={ LoginContainer }/>

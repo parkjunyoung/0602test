@@ -1,10 +1,9 @@
 import React from 'react'
-import Join from '../components/Join'
+import JoinForm from '../components/JoinForm'
 
-console.log('test');
 const JoinContainer = () => (
   <div>
-    <Join/>
+    <JoinForm/>
   </div>
 )
 

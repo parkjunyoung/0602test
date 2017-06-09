@@ -1,9 +1,10 @@
 import React from 'react'
+import Home from '../components/Home'
 
-const Home = () => (
+const HomeContainer = () => (
   <div>
-    Home
+    <Home/>
   </div>
 )
 
-export default Home
+export default HomeContainer

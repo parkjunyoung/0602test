@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Join extends Component {
+class JoinForm extends Component {
     constructor(props) {
       super(props);
 
@@ -69,4 +69,4 @@ class Join extends Component {
         );
     }
 }
-export default Join;
+export default JoinForm;
