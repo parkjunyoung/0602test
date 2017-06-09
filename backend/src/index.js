@@ -4,6 +4,7 @@ import logger from 'morgan';
 
 import posts from './routes/posts';
 import index from './routes/index';
+import admin from './routes/admin';
 
 import db from './models';
 
@@ -25,9 +26,14 @@ app.use(logger('dev'));
 // SERVE STATIC FILES - REACT PROJECT
 app.use('/', express.static( path.join(__dirname, '../../frontend/build') ));
 
+
+//upload path add
+app.use('/uploads', express.static( path.join(__dirname, '../uploads')) );
+
 // routing
 app.get('/', index.render);
 app.post('/api/join', posts.join);
+app.get('/api/admin/product/write', admin.productWrite);
 
 const server = app.listen(port, () => {
     console.log('Express listening on port', port);
