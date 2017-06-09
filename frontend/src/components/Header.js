@@ -15,7 +15,7 @@ class Header extends React.Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <LinkContainer to="/admin">
+                        <LinkContainer to="/admin/product">
                             <NavItem>ADMIN</NavItem>
                         </LinkContainer>
                         <LinkContainer to="/join">
