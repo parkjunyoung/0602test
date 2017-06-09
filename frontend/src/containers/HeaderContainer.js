@@ -3,7 +3,15 @@ import { Link } from 'react-router-dom';
 import { Navbar , Nav , NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
  
-class Header extends React.Component {
+class HeaderContainer extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+         login: ""
+     };
+   }
+
     render(){
         return(
             <Navbar inverse collapseOnSelect>
@@ -27,9 +35,8 @@ class Header extends React.Component {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            
         );  
     }
 }
  
-export default Header;
+export default HeaderContainer;

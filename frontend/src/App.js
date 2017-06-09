@@ -1,24 +1,22 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router , Route, Switch } from 'react-router-dom';
-import Home from './routes/Home';
-import Admin from './routes/Admin';
-import Login from './routes/Login';
-import Join from './routes/Join';
-import NotMatch from './routes/NotMatch';
-import Header from './components/Header';
+import React, {Component} from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import JoinContainer from './containers/JoinContainer';
+import LoginContainer from './containers/LoginContainer';
+import HeaderContainer from './containers/HeaderContainer';
+import Home from './containers/HomeContainer';
+import Admin from './containers/AdminContainer';
+import NotMatch from './containers/NotMatch'
 
 class App extends Component {
     render() {
         return (
             <Router>
                 <div>
-                    <Header/>
                     <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route path="/admin" component={Admin} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/join" component={Join} />
-                        <Route component={NotMatch} />
+                        <Route path="/admin" component={ Admin }/>
+                        <Route path="/login" component={ LoginContainer }/>
+                        <Route path="/join" component={ JoinContainer }/>
+                        <Route component={ NotMatch }/>
                     </Switch>
                 </div>
             </Router>
