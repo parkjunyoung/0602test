@@ -2,7 +2,7 @@ import express from 'express';
 import category from '../config/category';
 
 export default {
-    category(req, res) {
+    getProductCategory(req, res) {
         res.json(category);
     },
     product(req,res){

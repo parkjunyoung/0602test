@@ -34,6 +34,7 @@ app.use('/uploads', express.static( path.join(__dirname, '../uploads')) );
 app.get('/', index.render);
 app.post('/api/join', posts.join);
 app.get('/api/admin/product/write', admin.productWrite);
+app.get('/api/admin/getProductCategory', admin.getProductCategory );
 
 const server = app.listen(port, () => {
     console.log('Express listening on port', port);

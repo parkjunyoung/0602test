@@ -7,6 +7,7 @@ import {LinkContainer} from 'react-router-bootstrap';
 
 class HeaderContainer extends React.Component {
 
+
     render() {
         const AuthButton = () => {
             const isLoggedIn = this.props.loggedIn;
