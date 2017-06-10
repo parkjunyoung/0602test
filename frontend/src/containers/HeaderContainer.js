@@ -6,9 +6,6 @@ import {LinkContainer} from 'react-router-bootstrap';
 
 
 class HeaderContainer extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const AuthButton = () => {
