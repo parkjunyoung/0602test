@@ -1,5 +1,5 @@
 export default {
-    categroy : [
+    categoryList : [
         {
             name : "Home & Living",
             slug : "home"

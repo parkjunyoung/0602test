@@ -1,14 +1,13 @@
-import express from 'express';
-import category from '../config/category';
-
 export default {
-    getProductCategory(req, res) {
-        res.json(category);
+    getCategoryList(req, res) {
+        res.json(categoryList);
     },
     product(req,res){
         res.send("product");
     },
     productWrite(req,res){
-        res.send("product write1");
+        res.json({ 
+            message : "success"
+        });
     }
 };
