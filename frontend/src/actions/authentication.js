@@ -1,24 +1,31 @@
+import axios from 'axios';
+import React from 'react'
+import { Redirect } from 'react-router';
 import {
-    LOGIN,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE
-} from './ActionTypes';
+    LOGIN_SUCCESS, LOGIN_FAILURE,
+    REGISTER_SUCCESS, REGISTER_FAILURE,
+    SET_ERROR_MESSAGE, SENDING_REQUEST
+} from '../constants/ActionTypes';
+import * as errorMessage from '../constants/Message';
+
+// this action for progress bar
+function sendingRequest(sending){
+    return { type: SENDING_REQUEST, sending };
+}
+
+function encountError(message){
+    return { type: SET_ERROR_MESSAGE, message }
+}
 
 export function loginRequest(email, password) {
-    // todo: login request
+    // todo: make login request logic
     return (dispatch) => {
-         dispatch(login());
+         dispatch(sendingRequest(true));
 
          return new Promise((resolve, reject) => {
              resolve(dispatch(loginSuccess({ email: 'ho1234c@gmail.com' })))
          })
     }
-}
-
-export function login() {
-    return {
-        type: LOGIN
-    };
 }
 
 export function loginSuccess(user) {
@@ -28,8 +35,31 @@ export function loginSuccess(user) {
     };
 }
 
-export function loginFailure() {
-    return {
-        type: LOGIN_FAILURE
-    };
+
+export function registerRequest(email, password) {
+  return dispatch => {
+    dispatch(sendingRequest());
+
+    return axios.post("/api/account/register", { email, password })
+        .then(response => {
+            dispatch(registerSuccess(response.data));
+        })
+        .catch(error => {
+            switch(error.type){
+                case 'EXISTING_EMAIL':
+                    dispatch(encountError(errorMessage.EXISTING_EMAIL));
+                    return;
+                default:
+                    dispatch(encountError(errorMessage.SERVER_ERROR));
+                    return;
+            }
+      });
+  };
+}
+
+export function registerSuccess(user) {
+  return {
+    type: REGISTER_SUCCESS,
+    user
+  };
 }

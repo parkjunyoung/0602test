@@ -16,7 +16,17 @@ class JoinForm extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        console.log(e);
+        let id = this.state.email;
+        let pw = this.state.password;
+
+        this.props.handleSubmit(id, pw).then((success) => {
+                if(!success) {
+                    this.setState({
+                        password: ''
+                    });
+                }
+            }
+        );
     }
 
     handleChange(e){
