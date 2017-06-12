@@ -1,7 +1,35 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import getDate from '../../helper/getDate';
 
 class ProductList extends Component {
+
+    constructor(){
+        super();
+        this.state = { 
+            products : []
+        };
+        this.removeProduct = this.removeProduct.bind(this);
+    }
+
+    componentDidMount(){
+
+        axios.get('/api/admin/product', {
+        }).then( (res) => {
+            this.setState({
+                products : res.data.products
+            });
+        }).catch( (error) => {
+            console.log(error);
+        });
+    }
+
+    removeProduct(event){
+        event.preventDefault();
+        console.log(event.currentTarget.key);
+    }
+
     render() {
         return (
             <div className="row">
@@ -11,14 +39,27 @@ class ProductList extends Component {
                             <th>제품명</th>
                             <th>가격</th>
                             <th>등록일</th>
+                            <th>삭제</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                        </tr>
+                        {this.state.products.map( (product, key)=>{  
+                            let createdAt = getDate(product.createdAt);
+                            return (
+                                <tr key={key}>
+                                    <td>{product.product_name}</td>
+                                    <td>{product.price}</td>
+                                    <td>
+                                        { createdAt.year } - 
+                                        { createdAt.month } - 
+                                        { createdAt.day }
+                                    </td>
+                                    <td>
+                                        <a href={`/api/product/delete/${product.id}`} className="btn btn-danger" key={key} onClick={ this.removeProduct }>삭제</a>
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
                 <Link to="/admin/product/write" className="btn btn-primary">등록하기</Link>

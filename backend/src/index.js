@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import logger from 'morgan';
+import bodyParser from 'body-parser';
 
 import posts from './routes/posts';
 import index from './routes/index';
@@ -23,6 +24,9 @@ db.sequelize.authenticate()
 // logger
 app.use(logger('dev'));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // SERVE STATIC FILES - REACT PROJECT
 app.use('/', express.static( path.join(__dirname, '../../frontend/build') ));
 
@@ -33,7 +37,8 @@ app.use('/uploads', express.static( path.join(__dirname, '../uploads')) );
 // routing
 app.get('/', index.render);
 app.post('/api/join', posts.join);
-app.get('/api/admin/product/write', admin.productWrite);
+app.post('/api/admin/product/write', admin.productWrite);
+app.get('/api/admin/product', admin.product);
 app.get('/api/admin/getCategoryList', admin.getCategoryList );
 
 const server = app.listen(port, () => {

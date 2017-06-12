@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class ProductWrite extends Component {
 
@@ -29,12 +30,24 @@ class ProductWrite extends Component {
             this.refs.product_nameRef.focus();
             return;
         }
-        if(!this.state.price || !this.state.sale_price ){
+        if(!this.state.price && !this.state.sale_price ){
             alert("가격 또는 할인가를 입력하세요.");
             return;
         }
 
-        console.log(this.state);
+        axios.post('/api/admin/product/write', {
+            product_name : this.state.product_name,
+            price : this.state.price,
+            sale_price : this.state.sale_price,
+            description : this.state.description
+        }).then( (res) => {
+            if(res.data.message==="success"){
+                alert('작성되었습니다.');
+                this.props.history.push('/admin/product');
+            }
+        }).catch( (error) => {
+            console.log(error);
+        });
         
     }
 
