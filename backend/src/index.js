@@ -35,15 +35,10 @@ app.use('/uploads', express.static( path.join(__dirname, '../uploads')) );
 
 // routing
 app.get('/', index.render);
-<<<<<<< HEAD
-app.post('/api/join', posts.join);
 app.post('/api/admin/product/write', admin.productWrite);
 app.get('/api/admin/product', admin.product);
-=======
-app.post('/api/account/register', account.register);
-app.get('/api/admin/product/write', admin.productWrite);
->>>>>>> 4df4fa672b1e426b864134990f7f5da25dc1bb21
 app.get('/api/admin/getCategoryList', admin.getCategoryList );
+app.delete('/api/admin/product/delete/:id', admin.productdelete );
 
 const server = app.listen(port, () => {
     console.log('Express listening on port', port);

@@ -10,7 +10,6 @@ class ProductList extends Component {
         this.state = { 
             products : []
         };
-        this.removeProduct = this.removeProduct.bind(this);
     }
 
     componentDidMount(){
@@ -25,9 +24,20 @@ class ProductList extends Component {
         });
     }
 
-    removeProduct(event){
+    removeProduct(key , event){
         event.preventDefault();
-        console.log(event.currentTarget.key);
+        axios.delete( event.target.href)
+        .then( (res) => {
+            if(res.data.message==="success"){
+                alert('삭제되었습니다');
+                this.state.products.splice(key, 1);
+                this.setState({
+                    products : this.state.products
+                });
+            }
+        }).catch( (error) => {
+            console.log(error);
+        });
     }
 
     render() {
@@ -55,7 +65,7 @@ class ProductList extends Component {
                                         { createdAt.day }
                                     </td>
                                     <td>
-                                        <a href={`/api/product/delete/${product.id}`} className="btn btn-danger" key={key} onClick={ this.removeProduct }>삭제</a>
+                                        <a href={`/api/admin/product/delete/${product.id}`} className="btn btn-danger" onClick={ this.removeProduct.bind(this, key ) }>삭제</a>
                                     </td>
                                 </tr>
                             )

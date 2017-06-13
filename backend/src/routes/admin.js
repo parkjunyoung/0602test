@@ -20,5 +20,15 @@ export default {
         }).then(function() {
             res.json({ message : "success" });
         });
+    },
+    productdelete(req,res){
+        models.Product.destroy({
+            where: {
+                id: req.params.id
+            }
+        }).then(function() {
+            res.json({ message : "success" });
+        });
+        
     }
 };
