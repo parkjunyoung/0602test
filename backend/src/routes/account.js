@@ -1,6 +1,11 @@
+import db from '../models';
+
 export default {
     register(req, res) {
         console.log(req.body);
-        res.json({ user: "ho1234c@gmail.com" });
+        db.User.create(req.body)
+            .then(() => {
+                res.json(req.body);
+            })
     }
 }

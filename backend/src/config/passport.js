@@ -1,5 +1,5 @@
 import passport from 'passport';
-// import LocalStrategy from 'passport-local';
+import LocalStrategy from 'passport-local';
 import db from '../models'
 
 export default function(app) {

@@ -16,6 +16,10 @@ const port = 3000;
 db.sequelize.authenticate()
     .then(() => {
         console.log('Connection has been established successfully.');
+        return db.sequelize.sync();
+    })
+    .then(() => {
+        console.log('DB Sync complete.');
     })
     .catch(err => {
         console.error('Unable to connect to the database:', err);
@@ -35,6 +39,7 @@ app.use('/uploads', express.static( path.join(__dirname, '../uploads')) );
 
 // routing
 app.get('/', index.render);
+app.post('/api/account/register', account.register);
 app.post('/api/admin/product/write', admin.productWrite);
 app.get('/api/admin/product', admin.product);
 app.get('/api/admin/getCategoryList', admin.getCategoryList );
