@@ -1,9 +1,8 @@
 import axios from 'axios';
-import React from 'react'
-import { Redirect } from 'react-router';
+// import React from 'react'
 import {
-    LOGIN_SUCCESS, LOGIN_FAILURE,
-    REGISTER_SUCCESS, REGISTER_FAILURE,
+    LOGIN_SUCCESS,
+    REGISTER_SUCCESS,
     SET_ERROR_MESSAGE, SENDING_REQUEST
 } from '../constants/ActionTypes';
 import * as errorMessage from '../constants/Message';
@@ -36,11 +35,11 @@ export function loginSuccess(user) {
 }
 
 
-export function registerRequest(email, password) {
+export function registerRequest(email, password, name) {
   return dispatch => {
     dispatch(sendingRequest());
-
-    return axios.post("/api/account/register", { email, password })
+    
+    return axios.post("/api/account/register", { email, password, name })
         .then(response => {
             dispatch(registerSuccess(response.data));
         })

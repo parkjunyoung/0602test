@@ -18,8 +18,9 @@ class JoinForm extends Component {
         e.preventDefault();
         let id = this.state.email;
         let pw = this.state.password;
+        let name = this.state.name;
 
-        this.props.handleSubmit(id, pw).then((success) => {
+        this.props.handleSubmit(id, pw, name).then((success) => {
                 if(!success) {
                     this.setState({
                         password: ''

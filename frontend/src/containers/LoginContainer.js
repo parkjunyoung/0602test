@@ -30,7 +30,7 @@ class LoginContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {loggedIn: state.login.loggedIn};
+    return { loggedIn: state.authentication.loggedIn };
 };
 
 const mapDispatchToProps = (dispatch) => {

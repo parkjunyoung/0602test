@@ -10,8 +10,8 @@ class JoinContainer extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(email, password) {
-        return this.props.registerRequest(email, password).then(() => {
+    handleSubmit(email, password, name) {
+        return this.props.registerRequest(email, password, name).then(() => {
                 this.props.history.push("/");
             return true;
         });
@@ -34,8 +34,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        registerRequest: (email, password) => {
-            return dispatch(registerRequest(email, password));
+        registerRequest: (email, password, name) => {
+            return dispatch(registerRequest(email, password, name));
         }
     };
 };

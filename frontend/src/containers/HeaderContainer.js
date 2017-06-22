@@ -35,9 +35,12 @@ class HeaderContainer extends React.Component {
                         <LinkContainer to="/admin/product">
                             <NavItem>ADMIN</NavItem>
                         </LinkContainer>
-                        <LinkContainer to="/join">
-                            <NavItem>JOIN</NavItem>
-                        </LinkContainer>
+                        {!this.props.loggedIn && 
+                            <LinkContainer to="/join">
+                                <NavItem>JOIN</NavItem>
+                            </LinkContainer>
+                        }
+                        
                         <AuthButton/>
                     </Nav>
                 </Navbar.Collapse>
