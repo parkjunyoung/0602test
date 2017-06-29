@@ -9,7 +9,12 @@ export default (sequelize, DataTypes) => {
             password: { type: DataTypes.VIRTUAL, allowNull: true },
             password_hash:{ type: DataTypes.STRING }
         },{
-            instanceMethods:{
+            hooks: {
+                beforeBulkCreate: hashPasswordHook,
+                beforeCreate: hashPasswordHook,
+                beforeUpdate: hashPasswordHook
+            },
+            instanceMethods: {
                 authenticate: (password, callback) => {
                     bcrypt.compare(password, this.password_hash, function(err, isMatch) {
                         if (err) {
@@ -27,11 +32,12 @@ export default (sequelize, DataTypes) => {
 
 const hashPasswordHook = (user, options, callback) => {
     let userList = user.length ? user : [user];
+    
     Promise.all(userList.map(userObj => {
         const pwd = userObj.get('password');
-        if(!pwd) return null;
+
         return hashPromise(pwd, 10);
-    }))
+        }))
         .then(hash => {
             for(let i=0; i<userList.length; i++){
                 userList[i].set('password_hash', hash[i]);
@@ -42,9 +48,11 @@ const hashPasswordHook = (user, options, callback) => {
 
 const hashPromise = (password, salt = 10) => {
     return new Promise((resolve, reject) => {
+        if(!password) reject('there are no password');
+        
         bcrypt.hash(password, salt, (err, hash) => {
-            if (err) return reject(err);
-            resolve(hash)
+            if (err) reject(err);
+            else resolve(hash);
         })
     })
 };

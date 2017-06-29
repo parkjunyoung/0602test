@@ -40,6 +40,7 @@ app.use('/uploads', express.static( path.join(__dirname, '../uploads')) );
 // routing
 app.get('/', index.render);
 app.post('/api/account/register', account.register);
+
 app.post('/api/admin/product/write', admin.productWrite);
 app.get('/api/admin/product', admin.product);
 app.get('/api/admin/getCategoryList', admin.getCategoryList );

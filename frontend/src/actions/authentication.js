@@ -22,7 +22,8 @@ export function loginRequest(email, password) {
          dispatch(sendingRequest(true));
 
          return new Promise((resolve, reject) => {
-             resolve(dispatch(loginSuccess({ email: 'ho1234c@gmail.com' })))
+            resolve(dispatch(loginSuccess({ email: 'ho1234c@gmail.com' })))
+            dispatch(sendingRequest(false));
          })
     }
 }
@@ -34,17 +35,16 @@ export function loginSuccess(user) {
     };
 }
 
-
 export function registerRequest(email, password, name) {
   return dispatch => {
-    dispatch(sendingRequest());
+    dispatch(sendingRequest(true));
     
     return axios.post("/api/account/register", { email, password, name })
         .then(response => {
             dispatch(registerSuccess(response.data));
         })
         .catch(error => {
-            switch(error.type){
+            switch(error.response.data){
                 case 'EXISTING_EMAIL':
                     dispatch(encountError(errorMessage.EXISTING_EMAIL));
                     return;
@@ -52,7 +52,10 @@ export function registerRequest(email, password, name) {
                     dispatch(encountError(errorMessage.SERVER_ERROR));
                     return;
             }
-      });
+        })
+        .then(() => {
+            dispatch(sendingRequest(false));            
+        })
   };
 }
 

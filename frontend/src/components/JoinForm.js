@@ -7,6 +7,7 @@ class JoinForm extends Component {
         this.state = {
             email: "",
             password: "",
+            password_re: "",
             name: ""
         };
 
@@ -16,9 +17,17 @@ class JoinForm extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        let id = this.state.email;
-        let pw = this.state.password;
-        let name = this.state.name;
+        let id = this.state.email,
+            pw = this.state.password,
+            pw_re = this.state.password_re,
+            name = this.state.name;
+
+        if(pw !== pw_re){
+            alert("password not matched");
+            this.password_re.value = "";
+            this.password_re.focus();
+            return;
+        }
 
         this.props.handleSubmit(id, pw, name).then((success) => {
                 if(!success) {
@@ -50,23 +59,23 @@ class JoinForm extends Component {
                                 <fieldset>
                                     <div className="form-group">
                                         <input className="form-control" placeholder="email" name="email"
-                                         required="" onChange={ this.handleChange } value={ this.state.email }/>
+                                         required onChange={ this.handleChange } value={ this.state.email }/>
                                     </div>
                                     <div className="form-group">
                                         <input className="form-control" placeholder="Password" name="password" type="password"
-                                         required="" onChange={ this.handleChange } value={ this.state.password }/>
+                                         onChange={ this.handleChange } value={ this.state.password } required/>
                                     </div>
                                     <div className="form-group">
-                                        <input className="form-control" placeholder="Password 확인" name="password_re" type="password"
-                                         required="" onChange={ this.handleChange } value={ this.state.password_re }/>
+                                        <input className="form-control" placeholder="Password 확인" name="password_re" type="password" ref={ ref => this.password_re = ref }
+                                         onChange={ this.handleChange } value={ this.state.password_re } required/>
                                     </div>
 
                                     <div className="form-group">
-                                        <input className="form-control" placeholder="이름" name="name" type="text" 
-                                         required="" onChange={ this.handleChange } value={ this.state.name }/>
+                                        <input className="form-control" placeholder="이름" name="name" type="text"
+                                         onChange={ this.handleChange } value={ this.state.name } required/>
                                     </div>
                                     
-                                    <input type="submit" className="btn btn-lg btn-success btn-block" value="가입하기" />
+                                    <input type="submit" className="btn btn-lg btn-success btn-block" value="가입하기"/>
                                     <div style={{ marginTop: "10px" }}>
                                         <a href="/auth/facebook" className="btn btn-lg btn-primary btn-block">
                                             <i className="fa fa-facebook" aria-hidden="true"></i> 페이스북으로 회원가입
