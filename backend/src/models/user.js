@@ -15,14 +15,13 @@ export default (sequelize, DataTypes) => {
                 beforeUpdate: hashPasswordHook
             },
             instanceMethods: {
-                authenticate: (password, callback) => {
+                authenticate: function (password, callback) {
                     bcrypt.compare(password, this.password_hash, function(err, isMatch) {
                         if (err) {
                             callback(err);
                         }
                         callback(null, isMatch);
                     })
-
                 }
             },
         }

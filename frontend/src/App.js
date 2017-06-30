@@ -11,7 +11,6 @@ import HeaderContainer from './containers/HeaderContainer';
 import Home from './containers/HomeContainer';
 import Admin from './containers/AdminContainer';
 import NotMatch from './containers/NotMatch';
-
 import reducer from './reducers'
 
 const middleware = [thunk];

@@ -1,7 +1,7 @@
 import axios from 'axios';
 // import React from 'react'
 import {
-    LOGIN_SUCCESS,
+    LOGIN_SUCCESS, LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
     SET_ERROR_MESSAGE, SENDING_REQUEST
 } from '../constants/ActionTypes';
@@ -17,15 +17,27 @@ function encountError(message){
 }
 
 export function loginRequest(email, password) {
-    // todo: make login request logic
-    return (dispatch) => {
-         dispatch(sendingRequest(true));
-
-         return new Promise((resolve, reject) => {
-            resolve(dispatch(loginSuccess({ email: 'ho1234c@gmail.com' })))
-            dispatch(sendingRequest(false));
-         })
-    }
+    return dispatch => {
+        dispatch(sendingRequest(true));
+    
+        return axios.post("/api/account/login", { email, password }).then(response => {
+                dispatch(loginSuccess(response.data.user));
+            }).catch(error => {
+                switch(error.response.data){
+                    case 'PASSWORD_NOT_MATCH':
+                        dispatch(encountError(errorMessage.PASSWORD_NOT_MATCH));
+                        return;
+                    case 'NOT_EXSITING_EMAIL':
+                        dispatch(encountError(errorMessage.NOT_EXSITING_EMAIL));
+                        return;
+                    default:
+                        dispatch(encountError(errorMessage.SERVER_ERROR));
+                        return;
+                }
+            }).then(() => {
+                dispatch(sendingRequest(false));            
+            })
+  };
 }
 
 export function loginSuccess(user) {
@@ -35,27 +47,47 @@ export function loginSuccess(user) {
     };
 }
 
+export function logoutRequest(){
+    return dispatch => {
+        dispatch(sendingRequest(true));
+
+        return axios.post("/api/account/logout").then(response => {
+            dispatch(logoutSuccess());
+        }).catch(error => {
+            dispatch(encountError(errorMessage.SERVER_ERROR));
+        }).then(() => {
+                dispatch(sendingRequest(false));            
+            })
+    }
+}
+
+export function logoutSuccess(){
+    return {
+        type: LOGOUT_SUCCESS,
+    }
+}
+
 export function registerRequest(email, password, name) {
-  return dispatch => {
-    dispatch(sendingRequest(true));
+    return dispatch => {
+        dispatch(sendingRequest(true));
     
-    return axios.post("/api/account/register", { email, password, name })
-        .then(response => {
-            dispatch(registerSuccess(response.data));
-        })
-        .catch(error => {
-            switch(error.response.data){
-                case 'EXISTING_EMAIL':
-                    dispatch(encountError(errorMessage.EXISTING_EMAIL));
-                    return;
-                default:
-                    dispatch(encountError(errorMessage.SERVER_ERROR));
-                    return;
-            }
-        })
-        .then(() => {
-            dispatch(sendingRequest(false));            
-        })
+        return axios.post("/api/account/register", { email, password, name }).then(response => {
+                dispatch(registerSuccess(response.data));
+            }).catch(error => {
+                switch(error.response.data){
+                    case 'EXISTING_EMAIL':
+                        dispatch(encountError(errorMessage.EXISTING_EMAIL));
+                        return;
+                    case 'DUPLICATE_EMAIL':
+                        dispatch(encountError(errorMessage.DUPLICATE_EMAIL));
+                        return;
+                    default:
+                        dispatch(encountError(errorMessage.SERVER_ERROR));
+                        return;
+                }
+            }).then(() => {
+                dispatch(sendingRequest(false));            
+            })
   };
 }
 

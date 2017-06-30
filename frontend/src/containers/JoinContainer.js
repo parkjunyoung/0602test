@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import JoinForm from "../components/JoinForm";
+import JoinView from "../components/Account/JoinView";
 import { connect } from "react-redux";
-import { registerRequest } from "../actions/authentication";
-import { withRouter } from "react-router-dom";
+import { registerRequest, loginRequest } from "../actions/authentication";
+import ProgressBar from '../components/ProgressBar'
 
 class JoinContainer extends Component {
     constructor(props) {
@@ -12,15 +12,23 @@ class JoinContainer extends Component {
 
     handleSubmit(email, password, name) {
         return this.props.registerRequest(email, password, name).then(() => {
+            if(this.props.error){
+                alert(this.props.error);
+                return false;
+            }else{
                 this.props.history.push("/");
-            return true;
-        });
+                return true;
+            }
+        })
     }
 
     render() {
+        let progress = this.props.currentlySending ? 100 : 0;
+
         return (
             <div>
-                <JoinForm handleSubmit={this.handleSubmit} />
+                <ProgressBar progress={progress}/>
+                <JoinView handleSubmit={this.handleSubmit} />
             </div>
         );
     }
@@ -28,7 +36,8 @@ class JoinContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        error: state.authentication.errorMessage
+        error: state.authentication.errorMessage,
+        currentlySending: state.authentication.currentlySending
     };
 };
 
@@ -40,4 +49,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(JoinContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(JoinContainer);

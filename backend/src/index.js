@@ -2,10 +2,12 @@ import express from 'express';
 import path from 'path';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
+import session from 'express-session';
 
 import account from './routes/account';
 import index from './routes/index';
 import admin from './routes/admin';
+import passportConfig from './config/passport'
 
 import db from './models';
 
@@ -31,15 +33,21 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// SERVE STATIC FILES - REACT PROJECT
+// serve static file
 app.use('/', express.static( path.join(__dirname, '../../frontend/build') ));
-
-//upload path add
 app.use('/uploads', express.static( path.join(__dirname, '../uploads')) );
 
+// session
+app.use(session({ secret: 'jongho', resave: false, saveUninitialized: false, cookie: { secure: false } }));
+
+// passport
+passportConfig(app);
+
 // routing
-app.get('/', index.render);
+// app.get('/', index.render);
 app.post('/api/account/register', account.register);
+app.post('/api/account/login', account.login);
+app.post('/api/account/logout', account.logout);
 
 app.post('/api/admin/product/write', admin.productWrite);
 app.get('/api/admin/product', admin.product);

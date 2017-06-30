@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import LoginForm from '../components/LoginForm'
+import LoginView from '../components/Account/LoginView'
 import {loginRequest} from '../actions/authentication';
+import ProgressBar from '../components/ProgressBar'
 
 class LoginContainer extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class LoginContainer extends Component {
         return this.props.loginRequest(id, pw)
             .then(() => {
                 if (this.props.loggedIn) {
+                    this.props.history.push("/");
                     return true;
                 } else {
                     return false;
@@ -21,16 +23,22 @@ class LoginContainer extends Component {
     }
 
     render() {
+        let progress = this.props.currentlySending ? 100 : 0;
+
         return (
             <div>
-                <LoginForm onLogin={this.handleLogin}/>
+                <ProgressBar progress={progress}/>
+                <LoginView onLogin={this.handleLogin}/>
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return { loggedIn: state.authentication.loggedIn };
+    return { 
+        loggedIn: state.authentication.loggedIn, 
+        currentlySending: state.authentication.currentlySending 
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
