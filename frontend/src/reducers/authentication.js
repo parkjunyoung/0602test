@@ -23,6 +23,18 @@ export default function authentication(state = initialState, action) {
             return {
                 ...state,
                 currentUser: action.user,
+                loggedIn: true
+            }
+        case types.LOGOUT_SUCCESS:
+            return {
+                ...state,
+                currentUser: {},
+                loggedIn: false
+            }
+        case types.SENDING_REQUEST:
+            return {
+                ...state,
+                currentlySending: action.sending
             }
         case types.SET_ERROR_MESSAGE:
             return {

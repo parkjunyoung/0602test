@@ -11,11 +11,25 @@ export default function(app) {
             passwordField: 'password'
         },
         (email, password, done) => {
-            return done(null)
+            db.User.findOne({
+                where: { email: email },
+            }).then(user => {
+                    if(!user){
+                        return done(null, false, "DUPLICATE_EMAIL")
+                    }
+                    user.authenticate(password, (err, isMatch) => {
+                        if(err){
+                            return done(err);
+                        }
+                        if(!isMatch){
+                            return done(null, false, "PASSWORD_NOT_MATCH");
+                        }
+                        return done(null, user);
+                    });
+                })
         }
     ));
 
-    // serialize시 한커번에 user data를 세션에 저장.
     passport.serializeUser((user, done) => {
         done(null, user);
     });
